@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head><title>Livros</title></head>
+<body>
+<h2>Livros Disponíveis</h2>
+<table border="1">
+    <tr><th>Título</th><th>Autor</th><th>Status</th><th>Ações</th></tr>
+    <tr th:each="livro : ${livros}">
+        <td th:text="${livro.titulo}"></td>
+        <td th:text="${livro.autor}"></td>
+        <td th:text="${livro.emprestado ? 'Emprestado' : 'Disponível'}"></td>
+        <td>
+            <form method="post" th:action="@{/livros/emprestar}">
+                <input type="hidden" th:name="titulo" th:value="${livro.titulo}" />
+                <button type="submit" th:if="${!livro.emprestado}">Emprestar</button>
+            </form>
+            <form method="post" th:action="@{/livros/devolver}">
+                <input type="hidden" th:name="titulo" th:value="${livro.titulo}" />
+                <button type="submit" th:if="${livro.emprestado}">Devolver</button>
+            </form>
+        </td>
+    </tr>
+</table>
+<a href="/">Voltar</a>
+</body>
+</html>
